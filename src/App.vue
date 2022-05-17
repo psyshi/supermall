@@ -1,30 +1,30 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+  <div id="app" class="wrapper">
+    <!-- keep-alive可以保持浏览的页面保存然后下一次访问继续 -->
+    <!-- 这里指的是把router-view中的数据保存到v-slot="{ Component }中 -->
+    <!-- 然后在里面使用keep-alive保存数据使用<component :is="Component" />取出数据 -->
+    <!-- exclude是指的抛出那个不缓存数据 -->
+    <router-view v-slot="{ Component }">
+      <keep-alive exclude="Detail">
+        <component :is="Component" />
+      </keep-alive>
+    </router-view>
+    
+    <main-tab-bar v-if="$route.meta.requiresAuth" />
   </div>
-  <router-view/>
-</template>
+</template> 
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import MainTabBar from 'components/content/mainTabbar/MainTabBar.vue'
 
-#nav {
-  padding: 30px;
+export default {
+  name: 'App',
+  components: {
+    MainTabBar
+  },
 }
+</script>
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+<style scoped>
+@import "assets/css/base.css";
 </style>
